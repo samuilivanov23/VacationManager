@@ -9,13 +9,59 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: white;
+}
+
+.my_navbar {
+    margin-bottom: 30px;
+    padding: 5px;
+    background-color: #202020;
+}
+
+.center_item{
+    padding: 10px;
+}
+
+li {
+    display: inline;
+}
+
+li a:hover {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    background-color: #FFFF99;
+}
+
+.nav {
+    background-color: #202020;
+}
+
+.nav li {
+    display: inline;
+}
+
+.nav li a {
+    display: inline-block;
+    padding: 5px;
+}
+
+.nav a:hover {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    background-color: #FFFF99;
 }
 
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+.right_nav {
+    display: inline-block;
+    padding: 10px;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

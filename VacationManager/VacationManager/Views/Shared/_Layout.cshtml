@@ -23,51 +23,55 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li><a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-left">Home</a></li>
+    <div class="my_navbar">
+        <div class="navbar-header" style="display:inline-block;">
+            <a style="color: white" class="navbar-brand" href="#">VacationManager</a>
+        </div>
+        <div style="margin-left: 10px; display:inline-block;">
+            <ul class="nav">
+                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                 @if (loggedUser != null && loggedUser.Role == "CEO")
-                 {
+                {
                     <li><a asp-area="" asp-controller="Project" asp-action="CreateProject" class="navbar-left">Create Project</a></li>
                     <li><a asp-area="" asp-controller="Team" asp-action="CreateTeamByCeo" class="navbar-left">Create Team</a></li>
-                    <li><a asp-area="" asp-controller="Team" asp-action="ViewUserCreatedTeams" asp-route-id="@loggedUser.Id">View teams you've created</a></li>
-                 }
+                }
                 else if (loggedUser != null && loggedUser.Role == "Team Lead")
                 {
-                    <li><a asp-area="" asp-controller="Team" asp-action="ViewUserCreatedTeams" asp-route-id="@loggedUser.Id">View teams you've created</a></li>
-                    <li><a asp-area="" asp-controller="Vacations" asp-action="ViewCreatedVacations">View created vacations</a></li>
                     <li><a asp-area="" asp-controller="Project" asp-action="CreateProject" class="navbar-left">Create Project</a></li>
                     <li><a asp-area="" asp-controller="Team" asp-action="CreateTeam" class="navbar-left">Create Team</a></li>
                     <li><a asp-area="" asp-controller="Vacations" asp-action="CreateVacation" class="navbar-left">Create Vacation</a></li>
+                    <li><a asp-area="" asp-controller="Vacations" asp-action="ViewCreatedVacations">View created vacations</a></li>
+                    <li><a asp-area="" asp-controller="Team" asp-action="ViewUserCreatedTeams" asp-route-id="@loggedUser.Id">View your team's information</a></li>
                 }
                 else if (loggedUser != null)
                 {
                     <li><a asp-area="" asp-controller="Vacations" asp-action="ViewCreatedVacations">View created vacations</a></li>
                     <li><a asp-area="" asp-controller="Vacations" asp-action="CreateVacation" class="navbar-left">Create Vacation</a></li>
                 }
+
                 <li><a asp-area="" asp-controller="Project" asp-action="ViewCreatedProjects">View all projects</a></li>
                 <li><a asp-area="" asp-controller="Team" asp-action="ViewAllCreatedTeams">View all teams</a></li>
                 <li><a asp-area="" asp-controller="User" asp-action="ViewCreatedUsers">View all users</a></li>
                 <li><a asp-area="" asp-controller="User" asp-action="ViewCreatedRoles">View all roles</a></li>
             </ul>
-           @if (loggedUser != null)
-            {
+        </div>
+        <div style="margin-top: 10px; margin-right: 20px; display:inline-block; float:right">
+            @if (loggedUser != null)
+                {
                 <ul class="navbar-right">
-                    <li style="color:black; padding-top: 15px;">Hello @loggedUser.FirstName @loggedUser.LastName!</li>
-                    <li><a asp-area="" asp-controller="User" asp-action="ViewUser" asp-route-id="@loggedUser.Id">Profile</a></li>
-                    <li style="padding-left: 15px;"><a asp-area="" asp-controller="User" asp-action="Login">Log out</a></li>
+                    <li class="center_item"><a asp-controller="User" asp-action="ViewUser" asp-route-id="@loggedUser.Id">Profile</a></li>
+                    <li class="center_item"><a asp-area="" asp-controller="User" asp-action="Login">Log out</a></li>
                 </ul>
-            }
+                }
             else
             {
                 <ul class="navbar-right">
-                    <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
-                    <li><a asp-area="" asp-controller="User" asp-action="Register">Register</a></li>
+                    <li class="center_item"><a asp-controller="User" asp-action="Login">Login</a></li>
+                    <li class="center_item"><a asp-area="" asp-controller="User" asp-action="Register">Register</a></li>
                 </ul>
             }
         </div>
-    </nav>
+    </div>
 
     <div class="container body-content">
         @RenderBody()
