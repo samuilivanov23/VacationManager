@@ -231,6 +231,7 @@ namespace VacationManager.Services
             bool takenUserLastNameInfo = context.Users.FirstOrDefault(u => u.LastName == model.TeamLeadLastName) == null;
             bool takenTemaInfo = context.Teams.FirstOrDefault(t => t.Name == model.Name) != null;
 
+
             if (takenTeam.Project != null)
             {
                 if (!(takenTeam.Name == model.Name || takenProject.Name == model.ProjectName))
@@ -256,10 +257,16 @@ namespace VacationManager.Services
                 }
             }
 
+            //Taking the correct project based on the given projectname.
             takenProject = context.Projects.FirstOrDefault(p => p.Name == model.ProjectName);
+
+            //Taking the cunnet team lead of the team base on the database
+            //and the new team lead based on the given information in the method parameters.
             User teamLead = context.Users.FirstOrDefault(u => u.FirstName == model.TeamLeadFirstName && u.LastName == model.TeamLeadLastName);
             User pastTeamLead = context.Users.FirstOrDefault(u => u.TeamId == takenTeam.Id && u.Role == "Team Lead");
 
+            //if the the team has already a team lead
+            //The team lead is removed from the team.
             if (pastTeamLead != null && pastTeamLead != teamLead)
             {
                 pastTeamLead.Team = null;
@@ -267,14 +274,22 @@ namespace VacationManager.Services
                 takenTeam.Users.Remove(pastTeamLead);
             }
 
+            //if the new team lead exists as a user in the database
+            //he is appointed as the new team lead of the team.
             if (teamLead != null)
             {
+
+                //Checking if the new team lead already has a team.
+                //If true, the user is asked to select another team lead.
                 bool isTeamLeadValid = teamLead.TeamId != takenTeam.Id;
                 if (teamLead.TeamId != null && isTeamLeadValid)
                 {
                     return -8;
                 }
 
+
+                //If the new team lead does not have a team
+                //he is appointed as the new team lead of the team.
                 if (isTeamLeadValid)
                 {
                     teamLead.TeamId = takenTeam.Id;
@@ -285,6 +300,9 @@ namespace VacationManager.Services
 
                 takenTeam.Name = model.Name;
 
+                //If the team is already working on a project, the method only edits the team.
+                //Otherwise, the method edits the project list of teams whith adding the the team wich is 
+                //edited in the list of teams and edits the team itself
                 if (takenTeam.Project == null)
                 {
                     takenProject.Teams.Add(takenTeam);
