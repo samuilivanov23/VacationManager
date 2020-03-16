@@ -19,6 +19,8 @@ namespace VacationManager.Data.Models
 
         public Project Project { get; set; }
 
+        public int? CreatedBy { get; set; }
+
         public ICollection<User> Users { get; set; }
     }
 }

@@ -21,7 +21,7 @@
                      {
                         <h2 class="card-title text-primary">Team Name: @team.Name</h2>
                      }
-                    @if (loggedUser != null && loggedUser.Role == "CEO")
+                    @if (loggedUser != null && loggedUser.PermissionLevel == 2)
                      {
                         <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="EditProject" asp-route-id="@project.Id">Edit user project</a>
                         <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="DeleteProject" asp-route-id="@project.Id">Delete project</a>

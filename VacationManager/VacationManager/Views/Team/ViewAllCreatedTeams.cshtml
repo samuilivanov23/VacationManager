@@ -22,18 +22,18 @@
                     <div class="card-body">
                         <h2 class="card-title text-primary">Team Name: @team.Name</h2>
                         @if (teamProject != null)
-                         {
+                        {
                             <h2 class="card-title text-primary">@team.Name  is working on project: @teamProject.Name</h2>
-                         }
+                        }
                         <div class="form-group">
                             <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="ViewTeam" asp-route-id="@team.Id">Details</a>
                         </div>
-                        @if (loggedUser != null && loggedUser.Role == "CEO")
+                        @if (loggedUser != null && loggedUser.PermissionLevel == 2)
                         {
                             <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="EditTeamByCEO" asp-route-id="@team.Id">Edit team information</a>
                             <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="DeleteTeam" asp-route-id="@team.Id">Delete team</a>
                         }
-                        else if (loggedUser != null && loggedUser.Role == "Team Lead" && loggedUser.TeamId == team.Id)
+                        else if (loggedUser != null && loggedUser.PermissionLevel == 1 && loggedUser.TeamId == team.Id)
                         {
                             <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="EditTeam" asp-route-id="@team.Id">Edit team information</a>
                             <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="DeleteTeam" asp-route-id="@team.Id">Delete team</a>

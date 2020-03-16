@@ -8,9 +8,9 @@ namespace VacationManager.Services.Interfaces
 {
     public interface ITeamService
     {
-        int CreateTeam(string name, string projectName, int teamLeadId);
+        int CreateTeam(string name, string projectName, int creatorId);
 
-        int CreateTeamByCeo(string name, string projectName, string teamLeadFirstName, string teamLeadLastName);
+        int CreateTeamByCeo(string name, string projectName, string teamLeadFirstName, string teamLeadLastName, int creatorId);
 
         int EditTeam(EditTeamViewModel model);
 

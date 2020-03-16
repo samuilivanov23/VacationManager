@@ -141,7 +141,7 @@ namespace VacationManager.Controllers
         public IActionResult CreateTeamByCeo(string name, string projectName, string teamLeadFirstName, string teamLeadLastName)
         {
             CheckLoggedUser();
-            int result = TeamService.CreateTeamByCeo(name, projectName, teamLeadFirstName, teamLeadLastName);
+            int result = TeamService.CreateTeamByCeo(name, projectName, teamLeadFirstName, teamLeadLastName, loggedUser.Id);
 
             if (result > 0)
             {

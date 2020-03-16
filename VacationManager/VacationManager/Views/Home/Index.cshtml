@@ -6,7 +6,6 @@
     ViewData["Title"] = "Home Page";
     AllVacationsViewModel vacations = ViewData["CreatedVacations"] as AllVacationsViewModel;
     User loggedUser = ViewData["LoggedUser"] as User;
-    //VacationManagerDbContext Context = ViewData["Context"] as VacationManagerDbContext;
 }
 
 <div class="list-group">
@@ -24,7 +23,7 @@
                             <div class="form-group">
                                 <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ViewVacation" asp-route-id="@vacation.Id">Details</a>
                             </div>
-                            @if (loggedUser != null && loggedUser.Role == "CEO")
+                            @if (loggedUser != null && loggedUser.PermissionLevel == 2)
                              {
                                 <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="EditVacation" asp-route-id="@vacation.Id">Edit vacation information</a>
                                 <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="DeleteVacation" asp-route-id="@vacation.Id">Delete user</a>

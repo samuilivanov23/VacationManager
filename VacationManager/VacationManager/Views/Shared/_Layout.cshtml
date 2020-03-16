@@ -30,12 +30,13 @@
         <div style="margin-left: 10px; display:inline-block;">
             <ul class="nav">
                 <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                @if (loggedUser != null && loggedUser.Role == "CEO")
+                @if (loggedUser != null && loggedUser.PermissionLevel == 2)
                 {
                     <li><a asp-area="" asp-controller="Project" asp-action="CreateProject" class="navbar-left">Create Project</a></li>
                     <li><a asp-area="" asp-controller="Team" asp-action="CreateTeamByCeo" class="navbar-left">Create Team</a></li>
+                    <li><a asp-area="" asp-controller="Team" asp-action="ViewUserCreatedTeams" asp-route-id="@loggedUser.Id">View teams you've created</a></li>
                 }
-                else if (loggedUser != null && loggedUser.Role == "Team Lead")
+                else if (loggedUser != null && loggedUser.PermissionLevel == 1)
                 {
                     <li><a asp-area="" asp-controller="Project" asp-action="CreateProject" class="navbar-left">Create Project</a></li>
                     <li><a asp-area="" asp-controller="Team" asp-action="CreateTeam" class="navbar-left">Create Team</a></li>

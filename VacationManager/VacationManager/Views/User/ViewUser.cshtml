@@ -16,12 +16,12 @@
                     <h2 class="card-title">Username: @user.Username</h2>
                     <h2 class="card-title">Email: @user.Email</h2>
                     <h2 class="card-title">Role: @user.Role</h2>
-                    @if (loggedUser != null && loggedUser.Role == "CEO")
+                    @if (loggedUser != null && loggedUser.PermissionLevel == 2)
                     {
                         <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="EditUser" asp-route-id="@user.Id">Edit user information</a>
                         <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="DeleteUser" asp-route-id="@user.Id">Delete user</a>
                     }
-                    @if (user.TeamId == null && loggedUser != null && loggedUser.Role == "Team Lead" && user.Role == "Developer")
+                    @if (user.TeamId == null && loggedUser != null && loggedUser.PermissionLevel == 1 && user.Role == "Developer")
                     {
                         <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="AddToTeam" asp-route-id="@user.Id">Add to your team</a>//The team that the leader is part of.
                     }

@@ -20,7 +20,7 @@ namespace VacationManager.Services
             this.userService = userService;
         }
 
-        public int CreateTeam(string name, string projectName, int teamLeadId)
+        public int CreateTeam(string name, string projectName, int creatorId)
         {
             bool takenProjectInfo = context.Projects.FirstOrDefault(p => p.Name == projectName) == null;
             bool takenTemaInfo = context.Teams.FirstOrDefault(t => t.Name == name) != null;
@@ -39,17 +39,19 @@ namespace VacationManager.Services
                 Name = name
             };
 
-            Project teamProject = (Project)context.Projects.FirstOrDefault(p => p.Name == projectName);
-            User teamLead = context.Users.FirstOrDefault(u => u.Id == teamLeadId);
+            Project teamProject = context.Projects.FirstOrDefault(p => p.Name == projectName);
+            User creator = context.Users.FirstOrDefault(u => u.Id == creatorId);
 
             team.Project = teamProject;
-            team.Users.Add(teamLead);
-            
-            teamLead.Team = team;
+            team.Users.Add(creator);
+
+            team.CreatedBy = creator.Id;
+
+            creator.Team = team;
             teamProject.Teams.Add(team);
 
             context.Teams.Add(team);
-            context.Users.Update(teamLead);
+            context.Users.Update(creator);
             context.Projects.Update(teamProject);
             context.SaveChanges();
 
@@ -112,7 +114,7 @@ namespace VacationManager.Services
             return takenTeam.Id;
         }
 
-        public int CreateTeamByCeo(string name, string projectName, string teamLeadFirstName, string teamLeadLastName)
+        public int CreateTeamByCeo(string name, string projectName, string teamLeadFirstName, string teamLeadLastName, int creatorId)
         {
             bool takenProjectInfo = context.Projects.FirstOrDefault(p => p.Name == projectName) == null;
             bool takenUserFirstNameInfo = context.Users.FirstOrDefault(u => u.FirstName == teamLeadFirstName) == null;
@@ -144,6 +146,7 @@ namespace VacationManager.Services
 
                     team.Project = teamProject;
                     team.Users.Add(teamLead);
+                    team.CreatedBy = creatorId;
 
                     teamLead.Team = team;
                     teamProject.Teams.Add(team);
@@ -287,18 +290,17 @@ namespace VacationManager.Services
 
         public AllTeamsViewModel GetUserCreatedTeams(int id)
         {
-            var teams = context.Teams.Select(t => new Team()
-            {
-                Id = t.Id,
-                Name = t.Name,
-                ProjectId = t.ProjectId,
-                Project = t.Project,
-                Users = t.Users
-            });
-
+            List<Team> teams = new List<Team>();
             User takenUser = context.Users.FirstOrDefault(u => u.Id == id);
 
-            teams = teams.Where(t => t.Id == takenUser.TeamId);
+            if(takenUser.Role == "CEO")
+            {
+                teams = context.Teams.Where(t => t.CreatedBy == takenUser.Id).ToList();
+            }
+            else
+            {
+                teams = context.Teams.Where(t => t.Id == takenUser.TeamId).ToList();
+            }
 
             var model = new AllTeamsViewModel() { Teams = teams };
 

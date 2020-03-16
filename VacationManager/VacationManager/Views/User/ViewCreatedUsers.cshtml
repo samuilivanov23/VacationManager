@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="ViewUser" asp-route-id="@user.Id">Details</a>
                             </div>
-                            @if (loggedUser != null && loggedUser.Role == "CEO")
+                            @if (loggedUser != null && loggedUser.PermissionLevel == 2)
                             {
                                 <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="EditUser" asp-route-id="@user.Id">Edit user information</a>
                                 <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="DeleteUser" asp-route-id="@user.Id">Delete user</a>
