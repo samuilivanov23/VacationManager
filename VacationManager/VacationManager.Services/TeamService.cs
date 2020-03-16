@@ -276,7 +276,9 @@ namespace VacationManager.Services
                 Users = t.Users
             });
 
-            teams = teams.Where(t => t.Id == id);
+            User takenUser = context.Users.FirstOrDefault(u => u.Id == id);
+
+            teams = teams.Where(t => t.Id == takenUser.TeamId);
 
             var model = new AllTeamsViewModel() { Teams = teams };
 

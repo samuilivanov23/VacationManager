@@ -27,25 +27,27 @@
         {
             <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ApproveVacation" asp-route-id="@vacation.Id">Approve vacation</a>
         }*@
-
-                    @if ((!vacation.Approved) &&
-                           loggedUser.Role == "CEO" &&
-                           loggedUser != vacation.Applicant) //CEO has the permisson to approve vacation requested form all users.
+                    @if(loggedUser != null)
                     {
-                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ApproveVacation" asp-route-id="@vacation.Id">Approve vacation</a>
-                    }
-                    //Team lead can approve only vacation requests of developers in his team.
-                    else if ((!vacation.Approved) &&
-                                loggedUser.Role == "Team Lead" &&
-                                vacation.Applicant.TeamId == loggedUser.TeamId &&
-                                loggedUser != vacation.Applicant)
-                    {
-                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ApproveVacation" asp-route-id="@vacation.Id">Approve vacation</a>
-                    }
-                    @if (loggedUser.Role == "CEO" || vacation.Applicant == loggedUser)
-                    {
-                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="EditVacation" asp-route-id="@vacation.Id">Edit vacation information</a>
-                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="DeleteVacation" asp-route-id="@vacation.Id">Delete vacation</a>
+                        @if ((!vacation.Approved) &&
+                            loggedUser.Role == "CEO" &&
+                            loggedUser != vacation.Applicant) //CEO has the permisson to approve vacation requested form all users.
+                        {
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ApproveVacation" asp-route-id="@vacation.Id">Approve vacation</a>
+                        }
+                        //Team lead can approve only vacation requests of developers in his team.
+                        else if ((!vacation.Approved) &&
+                                    loggedUser.Role == "Team Lead" &&
+                                    vacation.Applicant.TeamId == loggedUser.TeamId &&
+                                    loggedUser != vacation.Applicant)
+                        {
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ApproveVacation" asp-route-id="@vacation.Id">Approve vacation</a>
+                        }
+                        @if (loggedUser.Role == "CEO" || vacation.Applicant == loggedUser)
+                        {
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="EditVacation" asp-route-id="@vacation.Id">Edit vacation information</a>
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="DeleteVacation" asp-route-id="@vacation.Id">Delete vacation</a>
+                        }
                     }
                     <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Home" asp-action="Index">Back to all vacation requests</a>
                 </div>
