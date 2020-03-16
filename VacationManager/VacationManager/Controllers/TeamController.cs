@@ -386,7 +386,7 @@ namespace VacationManager.Controllers
 
         public IActionResult ViewUserCreatedTeams(int id)
         {
-            ViewData["UserCreatedVacation"] = TeamService.GetUserCreatedTeams(id);
+            ViewData["UserUserCreatedTeams"] = TeamService.GetUserCreatedTeams(id);
             CheckLoggedUser();
             ViewData["Context"] = context;
             return View();
