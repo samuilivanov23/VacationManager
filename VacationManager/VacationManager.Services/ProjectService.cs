@@ -9,7 +9,9 @@ using VacationManager.ViewModels;
 
 namespace VacationManager.Services
 {
-    //This service is responsible for the project management functionality
+    /// <summary>
+    ///This service is responsible for the project management functionality
+    /// </summary>
     public class ProjectService : IProjectService
     {
         private VacationManagerDbContext context;
@@ -22,8 +24,8 @@ namespace VacationManager.Services
         }
 
         /// <summary>
-            ///This method is used to create a single project
-            ///based on a given name and description
+        ///This method is used to create a single project
+        ///based on a given name and description
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
@@ -57,8 +59,8 @@ namespace VacationManager.Services
 
 
         /// <summary>
-            ///This method is used to edit a single project entity
-            ///choosed by the user. It takes a model as an argument.
+        ///This method is used to edit a single project entity
+        ///choosed by the user. It takes a model as an argument.
         /// </summary>
         public int EditProject(EditProjectViewModel model)
         {
