@@ -1,0 +1,43 @@
+﻿@model VacationManager.ViewModels.EditTeamViewModel
+@using VacationManager.Data.Models
+@using VacationManager.ViewModels
+
+@{
+    ViewData["Title"] = "EditTeam";
+    AllProjectsViewModel projects = ViewData["CreatedProjects"] as AllProjectsViewModel;
+}
+
+<h2>Edit team information</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <p>@ViewBag.Message</p>
+        <form asp-action="EditTeam">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <select name="ProjectName">
+                    <option value="">Select a project</option>
+                    @foreach (var project in projects.Projects)
+                     {
+                        <option value="@project.Name">@project.Name</option>
+                     }
+                </select>
+                <span asp-validation-for="ProjectName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit team" class="btn btn-primary btn-rounded" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

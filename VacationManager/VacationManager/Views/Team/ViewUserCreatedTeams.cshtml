@@ -1,0 +1,47 @@
+﻿@using VacationManager.ViewModels;
+@using VacationManager.Data.Models;
+@using VacationManager.Data;
+
+@{
+    ViewData["Title"] = "ViewUserCreatedTeams";
+    AllTeamsViewModel teams = ViewData["UserCreatedVacation"] as AllTeamsViewModel;
+    User loggedUser = ViewData["LoggedUser"] as User;
+    VacationManagerDbContext Context = ViewData["Context"] as VacationManagerDbContext;
+    Project teamProject = null;
+}
+
+<div class="list-group">
+    <h3>Teams you've created</h3>
+    <hr />
+    <ul class="list-unstyled">
+        @foreach (var team in teams.Teams)
+        {
+            teamProject = Context.Projects.FirstOrDefault(p => p.Id == team.ProjectId);
+            <li class="list-inline-item">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-primary">Team Name: @team.Name</h2>
+                        @if (teamProject != null)
+                        {
+                            <h2 class="card-title text-primary">@team.Name  is working on project: @teamProject.Name</h2>
+                        }
+                        <div class="form-group">
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="ViewTeam" asp-route-id="@team.Id">Details</a>
+                        </div>
+                        @if (loggedUser != null && loggedUser.Role == "CEO")
+                        {
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="EditTeamByCEO" asp-route-id="@team.Id">Edit team information</a>
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="DeleteTeam" asp-route-id="@team.Id">Delete team</a>
+                        }
+                        else if (loggedUser != null && loggedUser.Role == "Team Lead" && loggedUser.TeamId == team.Id)
+                        {
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="EditTeam" asp-route-id="@team.Id">Edit team information</a>
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="DeleteTeam" asp-route-id="@team.Id">Delete team</a>
+                        }
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+    <hr />
+</div>

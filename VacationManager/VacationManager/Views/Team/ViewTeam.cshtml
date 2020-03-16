@@ -1,0 +1,71 @@
+﻿@using VacationManager.Data.Models;
+@using VacationManager.Data;
+
+@{
+    ViewData["Title"] = "View Team";
+    Team team = ViewData["Team"] as Team;
+    User loggedUser = ViewData["LoggedUser"] as User;
+    VacationManagerDbContext Context = ViewData["Context"] as VacationManagerDbContext;
+    Project teamProject = null;
+    if(team.Project != null)
+    {
+        teamProject = Context.Projects.FirstOrDefault(p => p.Id == team.ProjectId);
+    }
+    List<User> teamMembers = Context.Users.Where(u => u.TeamId == team.Id).ToList();
+}
+
+<h1>View Team</h1>
+
+<div class="list-group">
+    <ul class="list-unstyled">
+        <li class="list-inline-item">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Team Name: @team.Name</h2>
+                    @if (teamProject != null)
+                    {
+                        <h2 class="card-title">@team.Name  is working on project: @teamProject.Name</h2>
+                    }
+
+                    @if (teamMembers != null)
+                    {
+                        <br />
+                        <h1> Members of the team are: </h1>
+                        <br />
+                        @foreach (var user in teamMembers)
+                        {
+                            <h2 class="card-title">@user.FirstName @user.LastName</h2>
+                        }
+                    }
+                    else
+                    {
+                        <br />
+                            <h1> This team has no members </h1>
+                        <br />
+                    }
+                    @*@if (loggedUser.PermissionLevel == 2) //CEO has the permisson to approve vacation requested form all users.
+        {
+            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ApproveVacation" asp-route-id="@vacation.Id">Approve vacation</a>
+        }
+        //Team lead can approve only vacation requests of developers in his team.
+        else if (loggedUser.PermissionLevel == 1 && vacation.Applicant.TeamId == loggedUser.TeamId)
+        {
+            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ApproveVacation" asp-route-id="@vacation.Id">Approve vacation</a>
+        }*@
+
+                    @if (loggedUser != null && loggedUser.Role == "CEO")
+                    {
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="EditTeamByCEO" asp-route-id="@team.Id">Edit team information</a>
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="DeleteTeam" asp-route-id="@team.Id">Delete team</a>
+                    }
+                    else if (loggedUser != null && loggedUser.Role == "Team Lead" && loggedUser.TeamId == team.Id)
+                    {
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="EditTeam" asp-route-id="@team.Id">Edit team information</a>
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="DeleteTeam" asp-route-id="@team.Id">Delete team</a>
+                    }
+                    <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Team" asp-action="ViewAllCreatedTeams">Back to all teams</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

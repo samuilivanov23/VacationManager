@@ -1,0 +1,38 @@
+﻿@using VacationManager.ViewModels;
+@using VacationManager.Data.Models;
+@using VacationManager.Data;
+
+@{
+    ViewData["Title"] = "Users information";
+    AllUsersViewModel users = ViewData["CreatedUsers"] as AllUsersViewModel;
+    VacationManagerDbContext Context = ViewData["Context"] as VacationManagerDbContext;
+    User loggedUser = ViewData["LoggedUser"] as User;
+}
+
+<div class="list-group">
+    <h3>All users</h3>
+    <hr />
+        <ul class="list-unstyled">
+            @foreach (var user in users.Users)
+             {
+                <li class="list-inline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">First Name: @user.FirstName</h2>
+                            <h2 class="card-title text-primary">Last Name: @user.LastName</h2>
+                            <div class="form-group">
+                                <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="ViewUser" asp-route-id="@user.Id">Details</a>
+                            </div>
+                            @if (loggedUser != null && loggedUser.Role == "CEO")
+                            {
+                                <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="EditUser" asp-route-id="@user.Id">Edit user information</a>
+                                <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="DeleteUser" asp-route-id="@user.Id">Delete user</a>
+                            }
+                        </div>
+                    </div>
+                </li>
+             }
+        </ul>
+    <hr />
+</div>
+

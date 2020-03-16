@@ -1,0 +1,103 @@
+﻿@using VacationManager.Data.Models;
+
+@{
+    User loggedUser = ViewData["LoggedUser"] as User;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VacationManager</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-left">Home</a></li>
+                @if (loggedUser != null && loggedUser.Role == "CEO")
+                 {
+                    <li><a asp-area="" asp-controller="Project" asp-action="CreateProject" class="navbar-left">Create Project</a></li>
+                    <li><a asp-area="" asp-controller="Team" asp-action="CreateTeamByCeo" class="navbar-left">Create Team</a></li>
+                    <li><a asp-area="" asp-controller="Team" asp-action="ViewUserCreatedTeams" asp-route-id="@loggedUser.Id">View teams you've created</a></li>
+                 }
+                else if (loggedUser != null && loggedUser.Role == "Team Lead")
+                {
+                    <li><a asp-area="" asp-controller="Team" asp-action="ViewUserCreatedTeams" asp-route-id="@loggedUser.Id">View teams you've created</a></li>
+                    <li><a asp-area="" asp-controller="Vacations" asp-action="ViewCreatedVacations">View created vacations</a></li>
+                    <li><a asp-area="" asp-controller="Project" asp-action="CreateProject" class="navbar-left">Create Project</a></li>
+                    <li><a asp-area="" asp-controller="Team" asp-action="CreateTeam" class="navbar-left">Create Team</a></li>
+                    <li><a asp-area="" asp-controller="Vacations" asp-action="CreateVacation" class="navbar-left">Create Vacation</a></li>
+                }
+                else if (loggedUser != null)
+                {
+                    <li><a asp-area="" asp-controller="Vacations" asp-action="ViewCreatedVacations">View created vacations</a></li>
+                    <li><a asp-area="" asp-controller="Vacations" asp-action="CreateVacation" class="navbar-left">Create Vacation</a></li>
+                }
+                <li><a asp-area="" asp-controller="Project" asp-action="ViewCreatedProjects">View all projects</a></li>
+                <li><a asp-area="" asp-controller="Team" asp-action="ViewAllCreatedTeams">View all teams</a></li>
+                <li><a asp-area="" asp-controller="User" asp-action="ViewCreatedUsers">View all users</a></li>
+                <li><a asp-area="" asp-controller="User" asp-action="ViewCreatedRoles">View all roles</a></li>
+            </ul>
+           @if (loggedUser != null)
+            {
+                <ul class="navbar-right">
+                    <li style="color:black; padding-top: 15px;">Hello @loggedUser.FirstName @loggedUser.LastName!</li>
+                    <li><a asp-area="" asp-controller="User" asp-action="ViewUser" asp-route-id="@loggedUser.Id">Profile</a></li>
+                    <li style="padding-left: 15px;"><a asp-area="" asp-controller="User" asp-action="Login">Log out</a></li>
+                </ul>
+            }
+            else
+            {
+                <ul class="navbar-right">
+                    <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
+                    <li><a asp-area="" asp-controller="User" asp-action="Register">Register</a></li>
+                </ul>
+            }
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2020 - VacationManager</p>
+        </footer>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

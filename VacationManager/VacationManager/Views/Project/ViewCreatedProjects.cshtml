@@ -1,0 +1,37 @@
+﻿@using VacationManager.ViewModels;
+@using VacationManager.Data.Models;
+@using VacationManager.Data;
+
+@{
+    ViewData["Title"] = "All created projects";
+    AllProjectsViewModel projects = ViewData["CreatedProjects"] as AllProjectsViewModel;
+    VacationManagerDbContext Context = ViewData["Context"] as VacationManagerDbContext;
+    User loggedUser = ViewData["LoggedUser"] as User;
+}
+
+<div class="list-group">
+    <h3>All projects</h3>
+    <hr />
+    <ul class="list-unstyled">
+        @foreach (var project in projects.Projects)
+        {
+            <li class="list-inline-item">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-primary">Project Name: @project.Name</h2>
+                        <h2 class="card-title text-primary">Project Description: @project.Description</h2>
+                        <div class="form-group">
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="ViewProject" asp-route-id="@project.Id">Details</a>
+                        </div>
+                        @if (loggedUser != null && loggedUser.Role == "CEO")
+                         {
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="EditProject" asp-route-id="@project.Id">Edit project information</a>
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="DeleteProject" asp-route-id="@project.Id">Delete project</a>
+                         }
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+    <hr />
+</div>

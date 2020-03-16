@@ -1,0 +1,89 @@
+﻿@using VacationManager.ViewModels;
+@using VacationManager.Data.Models;
+@using VacationManager.Data;
+
+@{
+    ViewData["Title"] = "Roles information";
+    AllUsersViewModel users = ViewData["CreatedUsers"] as AllUsersViewModel;
+    VacationManagerDbContext Context = ViewData["Context"] as VacationManagerDbContext;
+}
+
+<div class="list-group">
+    <h3>All created roles</h3>
+    <hr />
+    <ul class="list-unstyled">
+        <li>CEO members</li>
+
+        @foreach (var user in users.Users)
+        {
+            @if (user.Role == "CEO")
+            {
+                <li class="list-inline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">First Name: @user.FirstName</h2>
+                            <h2 class="card-title text-primary">Last Name: @user.LastName</h2>
+                            @*<h2 class="card-title text-primary">First Name: @user.Team.Name</h2>*@
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+
+        <li>Team lead employeers</li>
+
+        @foreach (var user in users.Users)
+        {
+            @if (user.Role == "Team Lead")
+            {
+                <li class="list-inline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">First Name: @user.FirstName</h2>
+                            <h2 class="card-title text-primary">Last Name: @user.LastName</h2>
+                            @*<h2 class="card-title text-primary">First Name: @user.Team.Name</h2>*@
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+
+        <li>Developers</li>
+
+        @foreach (var user in users.Users)
+        {
+            @if (user.Role == "Developer")
+            {
+                <li class="list-inline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">First Name: @user.FirstName</h2>
+                            <h2 class="card-title text-primary">Last Name: @user.LastName</h2>
+                            @*<h2 class="card-title text-primary">First Name: @user.Team.Name</h2>*@
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+
+        <li>Unassigned employees</li>
+
+        @foreach (var user in users.Users)
+        {
+            @if (user.Role == "Unassigned")
+            {
+                <li class="list-inline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">First Name: @user.FirstName</h2>
+                            <h2 class="card-title text-primary">Last Name: @user.LastName</h2>
+                            @*<h2 class="card-title text-primary">First Name: @user.Team.Name</h2>*@
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
+    <hr />
+</div>
+

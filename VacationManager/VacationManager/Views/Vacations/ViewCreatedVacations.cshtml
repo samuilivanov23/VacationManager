@@ -1,0 +1,37 @@
+﻿@using VacationManager.ViewModels;
+@using VacationManager.Data.Models;
+@using VacationManager.Data;
+
+@{
+    ViewData["Title"] = "Home Page";
+    AllVacationsViewModel vacations = ViewData["CreatedVacations"] as AllVacationsViewModel;
+    User loggedUser = ViewData["LoggedUser"] as User;
+}
+
+<div class="list-group">
+    <h3>Vacation requests that you have created</h3>
+    <hr />
+    <ul class="list-unstyled">
+        @foreach (var vacation in vacations.Vacations)
+         {
+            if (vacation.Applicant.FirstName == loggedUser.FirstName && vacation.Applicant.LastName == loggedUser.LastName)
+            {
+                <li class="list-inline-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">Start date: @vacation.StartDate</h2>
+                            <h2 class="card-title text-primary">End date: @vacation.EndDate</h2>
+                            <h2 class="card-title text-primary">Applicant: @vacation.Applicant.FirstName</h2>
+                            <div class="form-group">
+                                <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="ViewVacation" asp-route-id="@vacation.Id">Details</a>
+                            </div>
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="EditVacation" asp-route-id="@vacation.Id">Edit vacation information</a>
+                            <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Vacations" asp-action="DeleteVacation" asp-route-id="@vacation.Id">Delete vacation</a>
+                        </div>
+                    </div>
+                </li>
+            }
+         }
+    </ul>
+    <hr />
+</div>

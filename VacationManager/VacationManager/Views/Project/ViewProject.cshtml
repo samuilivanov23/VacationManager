@@ -1,0 +1,34 @@
+﻿@using VacationManager.Data.Models;
+@using VacationManager.Data;
+
+@{
+    ViewData["Title"] = "View project";
+    Project project = ViewData["Project"] as Project;
+    VacationManagerDbContext Context = ViewData["Context"] as VacationManagerDbContext;
+    User loggedUser = ViewData["LoggedUser"] as User;
+}
+
+<h1>Project information</h1>
+
+<div class="list-group">
+    <ul class="list-unstyled">
+        <li class="list-inline-item">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">Project Name: @project.Name</h2>
+                    <h2 class="card-title text-primary">Project Description: @project.Description</h2>
+                    @foreach (var team in Context.Teams.Where(t => t.ProjectId == project.Id))
+                     {
+                        <h2 class="card-title text-primary">Team Name: @team.Name</h2>
+                     }
+                    @if (loggedUser != null && loggedUser.Role == "CEO")
+                     {
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="EditProject" asp-route-id="@project.Id">Edit user project</a>
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="DeleteProject" asp-route-id="@project.Id">Delete project</a>
+                     }
+                    <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="Project" asp-action="ViewCreatedProjects">Back to all projects</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

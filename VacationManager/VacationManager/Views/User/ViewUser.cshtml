@@ -1,0 +1,33 @@
+﻿@using VacationManager.Data.Models;
+
+@{
+    ViewData["Title"] = "View user";
+    User user = ViewData["User"] as User;
+    User loggedUser = ViewData["LoggedUser"] as User;
+}
+
+<div class="list-group">
+    <ul class="list-unstyled">
+        <li class="list-inline-item">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">First name: @user.FirstName</h2>
+                    <h2 class="card-title">Last name: @user.LastName</h2>
+                    <h2 class="card-title">Username: @user.Username</h2>
+                    <h2 class="card-title">Email: @user.Email</h2>
+                    <h2 class="card-title">Role: @user.Role</h2>
+                    @if (loggedUser != null && loggedUser.Role == "CEO")
+                    {
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="EditUser" asp-route-id="@user.Id">Edit user information</a>
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="DeleteUser" asp-route-id="@user.Id">Delete user</a>
+                    }
+                    @if (user.Team == null && loggedUser != null && loggedUser.Role == "Team Lead" && user.Role == "Developer")
+                    {
+                        <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="AddToTeam" asp-route-id="@user.Id">Add to your team</a>//The team that the leader is part of.
+                    }
+                    <a style="margin-top:75px;" class="btn btn-primary btn-rounded" asp-area="" asp-controller="User" asp-action="ViewCreatedUsers">Back to all users</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

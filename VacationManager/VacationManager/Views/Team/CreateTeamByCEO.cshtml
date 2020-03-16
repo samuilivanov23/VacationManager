@@ -1,0 +1,77 @@
+﻿@model VacationManager.ViewModels.CreateTeamByCeoViewModel
+@using VacationManager.Data.Models
+@using VacationManager.ViewModels
+
+@{
+    ViewData["Title"] = "CreateTeamByCEO";
+    AllProjectsViewModel projects = ViewData["CreatedProjects"] as AllProjectsViewModel;
+    AllUsersViewModel users = ViewData["CreatedUsers"] as AllUsersViewModel;
+}
+
+<h2>Create a team</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (ViewBag.Message != null)
+        {
+            <p>
+                @Html.Raw(ViewBag.Message.Replace(Environment.NewLine, "<br/>"))
+            </p>
+        }
+        <form asp-action="CreateTeamByCeo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <select name="ProjectName">
+                    <option value="">Select a project</option>
+                    @foreach (var project in projects.Projects)
+                     {
+                        <option value="@project.Name">@project.Name</option>
+                     }
+                </select>
+                <span asp-validation-for="ProjectName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamLeadFirstName" class="control-label"></label>
+                <select name="TeamLeadFirstName">
+                    <option value="">Select team lead's first name</option>
+                    @foreach (var user in users.Users)
+                     {
+                        if (user.Role == "Team Lead")
+                        {
+                            <option value="@user.FirstName">@user.FirstName</option>                        
+                        }
+                     }
+                </select>                
+                <span asp-validation-for="TeamLeadFirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamLeadLastName" class="control-label"></label>
+                <select name="TeamLeadLastName">
+                    <option value="">Select team lead's last name</option>
+                    @foreach (var user in users.Users)
+                    {
+                        if (user.Role == "Team Lead")
+                        {
+                            <option value="@user.LastName">@user.LastName</option>
+                        }
+                    }
+                </select>                
+                <span asp-validation-for="TeamLeadLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary btn-rounded" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
