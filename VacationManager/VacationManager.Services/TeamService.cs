@@ -249,6 +249,26 @@ namespace VacationManager.Services
             }
         }
 
+        public void DeleteTeam(int id)
+        {
+            Team team = context.Teams.FirstOrDefault(t => t.Id == id);
+
+            List<User> teamMembers = context.Users.Where(u => u.TeamId == team.Id).ToList();
+
+            if (teamMembers != null)
+            {
+                foreach(User user in teamMembers)
+                {
+                    user.TeamId = null;
+                    user.Team = null;
+                    context.Users.Update(user);
+                }
+            }
+
+            context.Teams.Remove(team);
+            context.SaveChanges();
+        }
+
         public AllTeamsViewModel GetAllTeams()
         {
             var teams = context.Teams.Select(t => new Team()

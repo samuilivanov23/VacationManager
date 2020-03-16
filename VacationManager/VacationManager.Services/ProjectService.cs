@@ -65,11 +65,16 @@ namespace VacationManager.Services
         {
             Project project = context.Projects.FirstOrDefault(p => p.Id == id);
 
-            foreach(var team in project.Teams)
+            List<Team> teamsWorkingOnProject = context.Teams.Where(t => t.ProjectId == project.Id).ToList();
+
+            if(teamsWorkingOnProject != null)
             {
-                team.Project = null;
-                context.Teams.Update(team);
-            }
+                foreach (var team in teamsWorkingOnProject)
+                {
+                    team.Project = null;
+                    context.Teams.Update(team);
+                }
+            }            
 
             context.Projects.Remove(project);
             context.SaveChanges();

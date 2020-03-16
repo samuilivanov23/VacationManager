@@ -16,6 +16,8 @@ namespace VacationManager.Services.Interfaces
 
         int EditTeamByCeo(EditTeamByCeoViewModel model);
 
+        void DeleteTeam(int id);
+
         AllTeamsViewModel GetAllTeams();
 
         AllTeamsViewModel GetUserCreatedTeams(int id);

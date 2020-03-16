@@ -376,6 +376,12 @@ namespace VacationManager.Controllers
             return RedirectToAction("ViewAllCreatedTeams", "Team");
         }
 
+        public IActionResult DeleteTeam(int id)
+        {
+            TeamService.DeleteTeam(id);
+            return this.RedirectToAction("ViewAllCreatedTeams", "Team");
+        }
+
         public IActionResult ViewAllCreatedTeams()
         {
             ViewData["AllCreatedTeams"] = TeamService.GetAllTeams();
