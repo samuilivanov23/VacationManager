@@ -163,6 +163,8 @@ namespace VacationManager.Services
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
+                TeamId = u.TeamId,
+                Team = u.Team,
                 Role = u.Role,
             });
 
@@ -176,6 +178,7 @@ namespace VacationManager.Services
             User userToBeAdded = context.Users.FirstOrDefault(u => u.Id == userToBeAddedId);
 
             team.Users.Add(userToBeAdded);
+            context.Users.Update(userToBeAdded);
             context.Teams.Update(team);
             context.SaveChanges();
         }
